@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELA — Pre-Order Campaign</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --cream: #f7f3ee;
+    --warm: #e8dfd4;
+    --accent: #c8502a;
+    --accent2: #2a4c8c;
+    --muted: #8a7f76;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 48px;
+    background: rgba(247,243,238,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
+    color: var(--ink);
+  }
+  .nav-cta {
+    background: var(--accent); color: white;
+    border: none; padding: 10px 24px; border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: #a83f1e; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 64px 80px 80px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 500; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 32px;
+    width: fit-content;
+  }
+  .badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: white; animation: pulse 1.5s infinite;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 5vw, 72px);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -2px; margin-bottom: 24px;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px; line-height: 1.7;
+    color: var(--muted); max-width: 440px;
+    margin-bottom: 48px; font-weight: 300;
+  }
+
+  /* Email form */
+  .form-wrap {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    max-width: 440px;
+  }
+  .form-title {
+    font-size: 14px; font-weight: 500; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .form-row {
+    display: flex; gap: 8px; margin-bottom: 12px;
+  }
+  .form-input {
+    flex: 1; padding: 14px 16px;
+    border: 1.5px solid var(--warm);
+    border-radius: 8px; font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-input:focus { border-color: var(--accent); }
+  .form-btn {
+    background: var(--accent); color: white;
+    border: none; padding: 14px 24px; border-radius: 8px;
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    white-space: nowrap; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .form-btn:hover { background: #a83f1e; transform: translateY(-1px); }
+  .form-note {
+    font-size: 12px; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Social proof */
+  .social-proof {
+    display: flex; align-items: center; gap: 16px;
+    margin-top: 24px; padding-top: 24px;
+    border-top: 1px solid var(--warm);
+  }
+  .avatars {
+    display: flex;
+  }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2px solid white; margin-left: -8px;
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .a1 { background: #c8502a; }
+  .a2 { background: #2a4c8c; }
+  .a3 { background: #2a7c4c; }
+  .a4 { background: #7c2a6c; }
+  .sp-text { font-size: 13px; color: var(--muted); }
+  .sp-text strong { color: var(--ink); }
+
+  /* ── HERO RIGHT ── */
+  .hero-right {
+    position: relative; overflow: hidden;
+    background: var(--ink);
+    animation: fadeIn 1s ease 0.2s both;
+  }
+
+  .hero-image-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #1a1a2e 0%, #0e0e0e 50%, #1c1c0e 100%);
+  }
+
+  .hero-product {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 60px 40px;
+  }
+
+  .product-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 48px 40px;
+    text-align: center;
+    width: 100%;
+    max-width: 360px;
+    backdrop-filter: blur(20px);
+  }
+
+  .product-icon {
+    width: 80px; height: 80px; margin: 0 auto 24px;
+    background: linear-gradient(135deg, var(--accent), #e8823a);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+  }
+
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px; font-weight: 900;
+    color: white; letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+
+  .product-tagline {
+    font-size: 14px; color: rgba(255,255,255,0.5);
+    margin-bottom: 32px; line-height: 1.5;
+  }
+
+  .countdown-label {
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 16px; font-weight: 500;
+  }
+
+  .countdown {
+    display: flex; gap: 12px; justify-content: center;
+    margin-bottom: 32px;
+  }
+  .count-block {
+    text-align: center;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 12px 16px;
+    min-width: 64px;
+  }
+  .count-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 900; color: white;
+    line-height: 1;
+  }
+  .count-label {
+    font-size: 10px; color: rgba(255,255,255,0.4);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .price-row {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin-bottom: 8px;
+  }
+  .price-original {
+    font-size: 16px; color: rgba(255,255,255,0.3);
+    text-decoration: line-through;
+  }
+  .price-current {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; font-weight: 900; color: white;
+  }
+  .price-badge {
+    background: var(--accent); color: white;
+    font-size: 11px; font-weight: 600; padding: 4px 8px;
+    border-radius: 4px; letter-spacing: 0.5px;
+  }
+  .price-note {
+    font-size: 12px; color: rgba(255,255,255,0.3);
+  }
+
+  /* Progress bar */
+  .progress-wrap { margin-top: 24px; }
+  .progress-header {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+  .progress-bar {
+    height: 6px; background: rgba(255,255,255,0.1);
+    border-radius: 3px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #e8823a);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 1.5s ease 0.5s;
+  }
+
+  /* Floating badge */
+  .float-badge {
+    position: absolute; top: 40px; right: 40px;
+    background: var(--accent); color: white;
+    padding: 10px 16px; border-radius: 8px;
+    font-size: 13px; font-weight: 500;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* ── FEATURES ── */
+  .features {
+    padding: 120px 80px;
+    background: white;
+  }
+
+  .section-label {
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 900; line-height: 1.1;
+    letter-spacing: -1.5px; margin-bottom: 64px;
+    max-width: 600px;
+  }
+
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;
+  }
+
+  .feature-item {
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+  .feature-item.visible { opacity: 1; transform: translateY(0); }
+
+  .feature-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px; font-weight: 900;
+    color: var(--warm); line-height: 1;
+    margin-bottom: 16px;
+  }
+  .feature-title {
+    font-size: 18px; font-weight: 500;
+    margin-bottom: 12px; color: var(--ink);
+  }
+  .feature-text {
+    font-size: 15px; color: var(--muted);
+    line-height: 1.7; font-weight: 300;
+  }
+
+  /* ── TESTIMONIAL ── */
+  .testimonial-section {
+    padding: 100px 80px;
+    background: var(--ink); color: white;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+
+  .big-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px; line-height: 0.8;
+    color: var(--accent); opacity: 0.5;
+    margin-bottom: -20px;
+  }
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 2.5vw, 32px);
+    font-style: italic; line-height: 1.5;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 32px;
+  }
+  .quote-author {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .author-av {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; color: white; font-weight: 700;
+  }
+  .author-name { font-size: 16px; font-weight: 500; }
+  .author-role { font-size: 13px; color: rgba(255,255,255,0.4); }
+
+  .stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+    border-radius: 16px; overflow: hidden;
+  }
+  .stat-block {
+    background: rgba(255,255,255,0.04);
+    padding: 40px 32px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px; font-weight: 900;
+    color: white; line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 13px; color: rgba(255,255,255,0.4);
+    line-height: 1.4;
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    padding: 120px 80px;
+    text-align: center;
+    background: var(--cream);
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,80,42,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 900; line-height: 1.1;
+    letter-spacing: -2px; margin-bottom: 20px;
+  }
+  .cta-sub {
+    font-size: 18px; color: var(--muted);
+    margin-bottom: 48px; font-weight: 300;
+  }
+  .cta-form {
+    display: flex; gap: 12px; max-width: 480px;
+    margin: 0 auto 24px;
+  }
+  .cta-input {
+    flex: 1; padding: 16px 20px;
+    border: 1.5px solid var(--warm); border-radius: 8px;
+    font-size: 15px; font-family: 'DM Sans', sans-serif;
+    background: white; outline: none;
+    transition: border-color 0.2s;
+  }
+  .cta-input:focus { border-color: var(--accent); }
+  .cta-btn {
+    background: var(--ink); color: white;
+    border: none; padding: 16px 32px; border-radius: 8px;
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .cta-btn:hover { background: var(--accent); transform: translateY(-2px); }
+  .cta-guarantee {
+    font-size: 13px; color: var(--muted);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 80px;
+    border-top: 1px solid var(--warm);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 900; color: var(--ink);
+  }
+  .footer-note {
+    font-size: 13px; color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 500px; }
+    .hero-left { padding: 60px 32px; }
+    nav { padding: 16px 24px; }
+    .features { padding: 80px 32px; }
+    .features-grid { grid-template-columns: 1fr; gap: 32px; }
+    .testimonial-section { grid-template-columns: 1fr; padding: 60px 32px; }
+    .cta-section { padding: 80px 32px; }
+    .cta-form { flex-direction: column; }
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">VELA ®</div>
+  <a href="#signup" class="nav-cta">Reserve Your Spot →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="badge">
+      <div class="badge-dot"></div>
+      Pre-Order Now Open
+    </div>
+
+    <h1 class="hero-title">
+      The product your<br>
+      customers have been<br>
+      <em>waiting for.</em>
+    </h1>
+
+    <p class="hero-sub">
+      Join thousands of early adopters and secure your exclusive founding member price before we open to the public. Limited spots available.
+    </p>
+
+    <div class="form-wrap" id="signup">
+      <div class="form-title">🔒 Reserve your founding member price</div>
+      <div class="form-row">
+        <input type="email" class="form-input" placeholder="Your best email">
+        <button class="form-btn" onclick="handleSubmit(this)">Get Access</button>
+      </div>
+      <div class="form-note">
+        🛡️ No spam, ever. Unsubscribe anytime.
+      </div>
+      <div class="social-proof">
+        <div class="avatars">
+          <div class="avatar a1">M</div>
+          <div class="avatar a2">S</div>
+          <div class="avatar a3">L</div>
+          <div class="avatar a4">R</div>
+        </div>
+        <div class="sp-text"><strong>2,847 people</strong> already joined the waitlist</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-image-bg"></div>
+    <div class="float-badge">⚡ Early Bird −40%</div>
+    <div class="hero-product">
+      <div class="product-card">
+        <div class="product-icon">🌊</div>
+        <div class="product-name">VELA Pro</div>
+        <div class="product-tagline">The complete toolkit for modern creators.<br>Ships Q2 2026.</div>
+
+        <div class="countdown-label">⏳ Launch countdown</div>
+        <div class="countdown" id="countdown">
+          <div class="count-block">
+            <div class="count-num" id="days">47</div>
+            <div class="count-label">Days</div>
+          </div>
+          <div class="count-block">
+            <div class="count-num" id="hours">12</div>
+            <div class="count-label">Hours</div>
+          </div>
+          <div class="count-block">
+            <div class="count-num" id="mins">38</div>
+            <div class="count-label">Mins</div>
+          </div>
+          <div class="count-block">
+            <div class="count-num" id="secs">05</div>
+            <div class="count-label">Secs</div>
+          </div>
+        </div>
+
+        <div class="price-row">
+          <div class="price-original">$199</div>
+          <div class="price-current">$119</div>
+          <div class="price-badge">−40%</div>
+        </div>
+        <div class="price-note">Founding member price · One time</div>
+
+        <div class="progress-wrap">
+          <div class="progress-header">
+            <span>Spots claimed</span>
+            <span>73% full</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label">Why it works</div>
+  <h2 class="section-title">Built for people who don't have time to waste.</h2>
+
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-num">01</div>
+      <div class="feature-title">Instant setup, zero friction</div>
+      <div class="feature-text">Go from zero to live in under 10 minutes. No technical knowledge required — if you can click, you can use it.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-num">02</div>
+      <div class="feature-title">Converts visitors into buyers</div>
+      <div class="feature-text">Every design decision was made with one goal: maximize your conversion rate. Average customers see 3.4× improvement.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-num">03</div>
+      <div class="feature-title">Works with your existing tools</div>
+      <div class="feature-text">Shopify, WooCommerce, Mailchimp, Klaviyo, Stripe — connects in one click with no dev help needed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial-section">
+  <div>
+    <div class="big-quote">"</div>
+    <p class="quote-text">We launched our pre-order campaign using this exact approach. 847 emails collected in 72 hours, $34,000 in pre-orders before we shipped a single unit.</p>
+    <div class="quote-author">
+      <div class="author-av">S</div>
+      <div>
+        <div class="author-name">Sara M.</div>
+        <div class="author-role">Founder, Studio Luce — Milano</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-block">
+      <div class="stat-num">847</div>
+      <div class="stat-label">Emails collected in first 72 hours</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">34k</div>
+      <div class="stat-label">In pre-orders before shipping</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">3.4×</div>
+      <div class="stat-label">Average conversion rate lift</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">48h</div>
+      <div class="stat-label">From brief to live page</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-label">Limited spots</div>
+  <h2 class="cta-title">Don't miss the<br><em style="font-family:'Playfair Display',serif; font-style:italic; color:var(--accent)">founding price.</em></h2>
+  <p class="cta-sub">Once we hit 3,000 subscribers, the price goes up. 73% there.</p>
+
+  <div class="cta-form">
+    <input type="email" class="cta-input" placeholder="your@email.com">
+    <button class="cta-btn" onclick="handleSubmit(this)">Claim My Spot →</button>
+  </div>
+  <div class="cta-guarantee">🔒 No spam · Cancel anytime · Founding member guarantee</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">VELA ®</div>
+  <div class="footer-note">© 2026 VELA Inc. · Built with ❤️ · <a href="#" style="color:var(--muted)">Privacy</a></div>
+</footer>
+
+<script>
+  // Countdown timer
+  function updateCountdown() {
+    const launch = new Date();
+    launch.setDate(launch.getDate() + 47);
+    const now = new Date();
+    const diff = launch - now;
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('days').textContent = String(d).padStart(2,'0');
+    document.getElementById('hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('secs').textContent = String(s).padStart(2,'0');
+  }
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // Progress bar animation
+  setTimeout(() => {
+    document.getElementById('progressFill').style.width = '73%';
+  }, 300);
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 120);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.feature-item').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(btn) {
+    const input = btn.parentElement.querySelector('input');
+    if (!input.value || !input.value.includes('@')) {
+      input.style.borderColor = '#c8502a';
+      input.focus(); return;
+    }
+    btn.textContent = '✓ You\'re in!';
+    btn.style.background = '#2a7c4c';
+    input.value = '';
+    input.placeholder = 'Check your inbox!';
+  }
+</script>
+</body>
+</html>
